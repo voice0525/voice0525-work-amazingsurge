@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: voice.forum::lang.categories.name
+
+# Model Form Field configuration
+form: ~/plugins/voice/forum/models/category/fields.yaml
+
+# Model Class name
+modelClass: Voice\Forum\Models\Category
+
+# Default redirect location
+defaultRedirect: voice/forum/categories
+
+# Create page
+create:
+    title: voice.forum::lang.categories.create
+    redirect: voice/forum/categories/update/:id
+    redirectClose: voice/forum/categories
+
+# Update page
+update:
+    title: voice.forum::lang.categories.update
+    redirect: voice/forum/categories
+    redirectClose: voice/forum/categories
+
+# Preview page
+preview:
+    title: voice.forum::lang.categories.preview

@@ -1,0 +1,49 @@
+<?php Block::put('breadcrumb') ?>
+    <ul>
+        <li><a href="<?= Backend::url('rainlab/user/groups') ?>"><?= e(trans('rainlab.user::lang.groups.list_title')) ?></a></li>
+        <li><?= e(trans($this->pageTitle)) ?></li>
+    </ul>
+<?php Block::endPut() ?>
+
+<div class="padded-container layout">
+<?php if (!$this->fatalError): ?>
+
+    <?= Form::open(['class' => 'layout']) ?>
+
+        <div class="layout-row">
+            <?= $this->formRender() ?>
+        </div>
+
+        <div class="form-buttons">
+            <div class="loading-indicator-container">
+                <button
+                    type="submit"
+                    data-request="onSave"
+                    data-hotkey="ctrl+s, cmd+s"
+                    data-load-indicator="<?= e(trans('rainlab.user::lang.groups.saving')) ?>"
+                    class="btn btn-primary">
+                    <?= e(trans('rainlab.user::lang.groups.save')) ?>
+                </button>
+                <button
+                    type="button"
+                    data-request="onSave"
+                    data-request-data="close:1"
+                    data-hotkey="ctrl+enter, cmd+enter"
+                    data-load-indicator="<?= e(trans('rainlab.user::lang.groups.saving')) ?>"
+                    class="btn btn-default">
+                    <?= e(trans('rainlab.user::lang.groups.savenclose')) ?>
+                </button>
+                <span class="btn-text">
+                    <?= e(trans('rainlab.user::lang.groups.or')) ?> <a href="<?= Backend::url('rainlab/user/groups') ?>"><?= e(trans('rainlab.user::lang.groups.cancel')) ?></a>
+                </span>
+            </div>
+        </div>
+    <?= Form::close() ?>
+
+<?php else: ?>
+
+    <p class="flash-message static error"><?= e(trans($this->fatalError)) ?></p>
+    <p><a href="<?= Backend::url('rainlab/user/groups') ?>" class="btn btn-default"><?= e(trans('rainlab.user::lang.groups.returnlist')) ?></a></p>
+
+<?php endif ?>
+</div>

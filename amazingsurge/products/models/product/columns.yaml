@@ -1,0 +1,21 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+
+    name:
+        label: NAME
+        searchable: true
+
+    description:
+        label: description
+
+    slug:
+        label: SLUG
+
+    created_at:
+        label: CREATE AT

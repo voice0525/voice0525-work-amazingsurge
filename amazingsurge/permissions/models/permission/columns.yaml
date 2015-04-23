@@ -1,0 +1,18 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    id:
+        label: ID
+        searchable: true
+        
+    name:
+        label: Permission Name
+
+    module:
+        label: Permission Module
+        searchable: true
+
+    description:
+        label: description

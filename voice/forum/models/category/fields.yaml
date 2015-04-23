@@ -1,0 +1,30 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: voice.forum::lang.data-categories.title
+        span: left
+
+    slug:
+        label: voice.forum::lang.data-categories.slug
+        span: right
+        preset: name
+
+    description:
+        label: voice.forum::lang.data-categories.desc
+        type: textarea
+        size: tiny
+
+    is_moderated:
+        label: voice.forum::lang.data-categories.moderated
+        comment: voice.forum::lang.data-categories.is_mod
+        type: checkbox
+        span: auto
+
+    is_hidden:
+        label: voice.forum::lang.data-categories.hidden
+        comment: voice.forum::lang.data-categories.is_hidden
+        type: checkbox
+        span: auto

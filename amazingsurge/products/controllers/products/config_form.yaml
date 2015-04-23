@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Product
+
+# Model Form Field configuration
+form: $/amazingsurge/products/models/product/fields.yaml
+
+# Model Class name
+modelClass: Amazingsurge\Products\Models\Product
+
+# Default redirect location
+defaultRedirect: amazingsurge/products/products
+
+# Create page
+create:
+    title: Create Product
+    redirect: amazingsurge/products/products/update/:id
+    redirectClose: amazingsurge/products/products
+
+# Update page
+update:
+    title: Edit Product
+    redirect: amazingsurge/products/products
+    redirectClose: amazingsurge/products/products
+
+# Preview page
+preview:
+    title: Preview Product

@@ -1,0 +1,20 @@
+# ===================================
+#  List Behavior Config
+# ===================================
+
+title: rainlab.user::lang.groups.list_title
+list: ~/plugins/rainlab/user/models/group/columns.yaml
+modelClass: RainLab\User\Models\Group
+recordUrl: rainlab/user/groups/update/:id
+noRecordsMessage: backend::lang.list.no_records
+recordsPerPage: 20
+showCheckboxes: true
+# showSetup: true
+
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: backend::lang.list.search_prompt
+
+
+

@@ -1,0 +1,20 @@
+# ===================================
+#  Column Definitions
+# ===================================
+
+columns:
+    name:
+        label: rainlab.user::lang.group.name
+        searchable: true
+
+    slug:
+        label: rainlab.user::lang.group.slug
+        searchable: true
+
+    description:
+        label: Description
+        searchable: true
+
+    user_count:
+        label: Users
+        sortable: false

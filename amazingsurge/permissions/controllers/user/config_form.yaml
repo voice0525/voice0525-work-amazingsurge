@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: User
+
+# Model Form Field configuration
+form: $/amazingsurge/permissions/models/user/fields.yaml
+
+# Model Class name
+modelClass: Amazingsurge\Permissions\Models\User
+
+# Default redirect location
+defaultRedirect: amazingsurge/permissions/user
+
+# Create page
+create:
+    title: Create User
+    redirect: amazingsurge/permissions/user/update/:id
+    redirectClose: amazingsurge/permissions/user
+
+# Update page
+update:
+    title: Edit User
+    redirect: amazingsurge/permissions/user
+    redirectClose: amazingsurge/permissions/user
+
+# Preview page
+preview:
+    title: Preview User

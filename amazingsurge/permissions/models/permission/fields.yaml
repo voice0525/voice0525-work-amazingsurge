@@ -1,0 +1,17 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: Permission Name
+        comment: Example: module.action
+
+    module:
+        label: Permission Module
+        comment: Example: Forum or Helpcenter
+
+    description:
+        label: Description
+        type: textarea
+        comment: Up to 255 chars.

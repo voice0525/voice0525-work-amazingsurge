@@ -1,0 +1,17 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: NAME
+        span: left
+
+    slug:
+        label: SLUG
+        span: right
+        preset: name
+
+    description:
+        label: description
+        type: textarea

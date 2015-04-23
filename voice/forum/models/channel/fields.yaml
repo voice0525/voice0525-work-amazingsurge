@@ -1,0 +1,50 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+secondaryTabs:
+    stretch: true
+    fields:
+        parent:
+            tab: Edit
+            label: voice.forum::lang.data.parent
+            type: relation
+            nameFrom: title
+            emptyOption: voice.forum::lang.data.noparent
+
+        title:
+            tab: Edit
+            label: voice.forum::lang.data.title
+            span: left
+
+        slug:
+            tab: Edit
+            label: voice.forum::lang.data.slug
+            span: right
+            preset: title
+
+        description:
+            tab: Edit
+            label: voice.forum::lang.data.desc
+            type: textarea
+            size: tiny
+
+        is_moderated:
+            tab: Edit
+            label: voice.forum::lang.data.moderated
+            comment: voice.forum::lang.data.is_mod
+            type: checkbox
+            span: auto
+
+        is_hidden:
+            tab: Edit
+            label: voice.forum::lang.data.hidden
+            comment: voice.forum::lang.data.is_hidden
+            type: checkbox
+            span: auto
+
+        categories:
+            tab: categories
+            type: relation
+            commentAbove: rainlab.blog::lang.post.categories_comment
+            placeholder: rainlab.blog::lang.post.categories_placeholder

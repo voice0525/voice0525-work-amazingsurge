@@ -1,0 +1,18 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    group_id:
+        label: User Group
+
+    group:
+        label: User Group
+        # relation: group
+        select: name
+
+    permission_id:
+        label: Permissions
+        relation: permission
+        select: name
+

@@ -1,0 +1,25 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+fields:
+
+    name:
+        label: rainlab.user::lang.group.name
+        span: left
+
+    slug:
+        label: rainlab.user::lang.group.slug
+        span: right
+        preset: name
+
+    description:
+        label: Description
+        type: textarea
+
+tabs:
+    fields:
+        permission:
+            tab: Group Permissions
+            label: Permission
+            type: relation

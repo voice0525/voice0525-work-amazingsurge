@@ -1,0 +1,16 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+name: rainlab.user::lang.group.label
+form: ~/plugins/rainlab/user/models/group/fields.yaml
+modelClass: RainLab\User\Models\Group
+defaultRedirect: rainlab/user/groups
+
+create:
+    redirect: rainlab/user/groups/update/:id
+    redirectClose: rainlab/user/groups
+
+update:
+    redirect: rainlab/user/groups
+    redirectClose: rainlab/user/groups

@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Group
+
+# Model Form Field configuration
+form: $/amazingsurge/permissions/models/group/fields.yaml
+
+# Model Class name
+modelClass: Amazingsurge\Permissions\Models\Group
+
+# Default redirect location
+defaultRedirect: amazingsurge/permissions/group
+
+# Create page
+create:
+    title: Create Group
+    redirect: amazingsurge/permissions/group/update/:id
+    redirectClose: amazingsurge/permissions/group
+
+# Update page
+update:
+    title: Edit Group
+    redirect: amazingsurge/permissions/group
+    redirectClose: amazingsurge/permissions/group
+
+# Preview page
+preview:
+    title: Preview Group
