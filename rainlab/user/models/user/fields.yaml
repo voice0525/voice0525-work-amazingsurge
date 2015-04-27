@@ -85,6 +85,12 @@ tabs:
             label: Group
             commentAbove: Specify which groups this person belongs to.
 
+        # permissions[superuser]:
+        #     tab: AAA
+        #     label: backend::lang.user.superuser
+        #     type: checkbox
+        #     comment: backend::lang.user.superuser_comment
+
 secondaryTabs:
     fields:
 

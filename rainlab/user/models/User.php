@@ -65,6 +65,11 @@ class User extends UserBase
     public static $loginAttribute = null;
 
     /**
+     * @var array List of attribute names which are json encoded and decoded from the database.
+     */
+    // protected $jsonable = ['permissions'];
+
+    /**
      * @return string Returns the name for the user's login.
      */
     public function getLoginName()
@@ -172,5 +177,38 @@ class User extends UserBase
         echo '<pre>';
         var_dump($param);
         exit;
+    }
+
+    // public function beforeSave()
+    // {
+    //     echo '<pre>';
+    //     print_r($_REQUEST);
+    //     exit;
+    // }
+
+    /**
+     * Validate any set permissions.
+     * @param array $permissions
+     * @return void
+     */
+    public function setPermissionsAttribute($permissions)
+    {
+        $permissions = json_decode($permissions, true);
+        foreach($permissions as $module => &$pms) {
+            if( $module == 'superuser' ) {
+                unset($permissions['superuser']);
+                continue;
+            }
+            foreach ($pms as $permission => &$value) {
+                if (!in_array($value = (int)$value, $this->allowedPermissionsValues))
+                    throw new InvalidArgumentException(sprintf('Invalid value "%s" for permission "%s" given.', $value, $permission));
+
+                if ($value === 0)
+                    unset($permissions[$module][$permission]);
+            }
+        }
+
+
+        $this->attributes['permissions'] = (!empty($permissions)) ? json_encode($permissions) : '';
     }
 }

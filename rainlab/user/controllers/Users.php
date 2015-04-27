@@ -53,12 +53,13 @@ class Users extends Controller
      */
     protected function formExtendFields($form)
     {
+        // Start Permission Setting
         $collection = Permission::all();
         $datas      = $collection->toArray();
         $modules    = [];
         foreach($datas as $data)
         {
-            $permissionFields["permission[{$data['module']}][{$data['name']}]"] = [
+            $permissionFields["permissions[{$data['module']}][{$data['name']}]"] = [
                 'label' => $data['name'],
                 'comment' => $data['description'],
                 'type' => 'balloon-selector',
@@ -67,51 +68,21 @@ class Users extends Controller
                     0 => 'backend::lang.user.inherit',
                     -1 => 'backend::lang.user.deny',
                 ],
-                'attributes' => [
-                    'data-trigger-action' => 'disable',
-                    'data-trigger' => "input[name='User[permissions][superuser]']",
-                    'data-trigger-condition' => 'checked',
-                ],
+                // 'attributes' => [
+                //     'data-trigger-action' => 'disable',
+                //     'data-trigger' => "input[name='User[permissions][superuser]']",
+                //     'data-trigger-condition' => 'checked',
+                // ],
                 'span' => 'auto',
                 'tab' => 'Permission ' . $data['module']
             ];
 
-            // $modules[$data['module']][] = [
-            //     'name'   => "permission[{$data['module']}][{$data['name']}]",
-            //     'config' => [
-            //         'label' => $data['name'],
-            //         'comment' => $data['description'],
-            //         'type' => 'balloon-selector',
-            //         'options' => [
-            //             1 => 'backend::lang.user.allow',
-            //             0 => 'backend::lang.user.inherit',
-            //             -1 => 'backend::lang.user.deny',
-            //         ],
-            //         'attributes' => [
-            //             'data-trigger-action' => 'disable',
-            //             'data-trigger' => "input[name='User[permissions][superuser]']",
-            //             'data-trigger-condition' => 'checked',
-            //         ],
-            //         'span' => 'auto',
-            //         'tab' => 'Permission'
-            //     ]
-            // ];
         }
         unset($datas);
-
-        // foreach($modules as $key => $module)
-        // {
-        //     foreach($module as $permission)
-        //     {
-        //         $permissionFields[$permission['name']] = $permission['config'];
-        //     }
-        // }
-
         
         $form->addTabFields($permissionFields);
-        // echo '<pre>';
-        // print_r($permissionFields);
-        exit;
+        // End Permission Setting
+
         $loginAttribute = UserSettings::get('login_attribute', UserSettings::LOGIN_EMAIL);
         if ($loginAttribute != UserSettings::LOGIN_USERNAME) {
             return;
