@@ -84,7 +84,7 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'Amazingsurge\Permissions\Components\Session'       => 'sessionss',
+            'Amazingsurge\Permissions\Components\Session' => 'sessionss',
         ];
     }
 }

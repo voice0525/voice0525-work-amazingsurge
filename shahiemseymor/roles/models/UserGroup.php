@@ -43,6 +43,11 @@ class UserGroup extends Model
 	    return false;
     }
 
+    public static function ahaha()
+    {
+        echo 'In HAHA function.';
+    }
+
     public static function can($permissions)
     {
     	$account = new Account;

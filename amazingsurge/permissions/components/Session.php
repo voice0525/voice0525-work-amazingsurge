@@ -21,35 +21,41 @@ class Session extends ComponentBase
         ];
     }
 
-    public function defineProperties()
-    {
-        return [
-            'security' => [
-                'title'       => 'rainlab.user::lang.session.security_title',
-                'description' => 'rainlab.user::lang.session.security_desc',
-                'type'        => 'dropdown',
-                'default'     => 'all',
-                'options'     => [
-                    'all'   => 'rainlab.user::lang.session.all',
-                    'user'  => 'rainlab.user::lang.session.users',
-                    'guest' => 'rainlab.user::lang.session.guests'
-                ]
-            ],
-            'redirect' => [
-                'title'       => 'rainlab.user::lang.session.redirect_title',
-                'description' => 'rainlab.user::lang.session.redirect_desc',
-                'type'        => 'dropdown',
-                'default'     => ''
-            ]
-        ];
-    }
+    // public function defineProperties()
+    // {
+    //     return [
+    //         'aaa' => [
+    //             'title'       => 'aaa',
+    //             'description' => 'aaa',
+    //             'type'        => 'dropdown',
+    //             'default'     => 'all',
+    //             'options'     => [
+    //                 'all'   => 'rainlab.user::lang.session.all',
+    //                 'user'  => 'rainlab.user::lang.session.users',
+    //                 'guest' => 'rainlab.user::lang.session.guests'
+    //             ]
+    //         ],
+    //         'bbb' => [
+    //             'title'       => 'bbb',
+    //             'description' => 'bbb',
+    //             'type'        => 'dropdown',
+    //             'default'     => ''
+    //         ]
+    //     ];
+    // }
 
     /**
      * Executed when this component is bound to a page or layout.
      */
     public function onRun()
     {
-        echo 'hahahahaha';
+        // echo '<pre>';
+        // print_r($this->controller);
+        // $f = fopen("controller.txt", 'w');
+        // fwrite($f, var_export($this->controller, 1));
+        // fclose($f);
+        // exit;
+        // echo 'hahahahaha';
         $this->page['ahaha'] = array(
             'abc'  => 'aaha',
             'axxx' => 'GOGOGO',
