@@ -7,7 +7,7 @@ use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use ValidationException;
 
-class Session extends ComponentBase
+class Permission extends ComponentBase
 {
     const ALLOW_ALL = 'all';
     const ALLOW_GUEST = 'guest';
@@ -16,8 +16,8 @@ class Session extends ComponentBase
     public function componentDetails()
     {
         return [
-            'name'        => 'rainlab.user::lang.session.session',
-            'description' => 'rainlab.user::lang.session.session_desc'
+            'name'        => 'Permission',
+            'description' => 'Permission Components'
         ];
     }
 
@@ -49,19 +49,7 @@ class Session extends ComponentBase
      */
     public function onRun()
     {
-        // echo '<pre>';
-        // print_r($this->controller);
-        // $f = fopen("controller.txt", 'w');
-        // fwrite($f, var_export($this->controller, 1));
-        // fclose($f);
-        // exit;
-        // echo 'hahahahaha';
-        $this->page['ahaha'] = array(
-            'abc'  => 'aaha',
-            'axxx' => 'GOGOGO',
-            'arr'  => [123, 234, 345, 456]
-        );
-        // exit;
+
     }
 
     /**

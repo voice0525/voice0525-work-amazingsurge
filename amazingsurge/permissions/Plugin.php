@@ -1,8 +1,8 @@
 <?php namespace Amazingsurge\Permissions;
 
-use Flash;
 use Backend;
 use System\Classes\PluginBase;
+use Amazingsurge\Permissions\Models\Permission;
 
 /**
  * Permissions Plugin Information File
@@ -84,7 +84,16 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'Amazingsurge\Permissions\Components\Session' => 'sessionss',
+            // 'Amazingsurge\Permissions\Components\Session' => 'sessionss',
+        ];
+    }
+
+    public function registerMarkupTags()
+    {
+        return [
+            'functions'   => [
+                'hasPermission' => function($permission) { return Permission::hasPermission($permission); },
+            ]
         ];
     }
 }

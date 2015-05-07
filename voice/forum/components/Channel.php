@@ -82,6 +82,18 @@ class Channel extends ComponentBase
                 'type'        => 'dropdown',
                 'group'       => 'Links',
             ],
+            'category' => [
+                'title'       => 'Category',
+                'description' => 'Category',
+                'default'     => '{{ :category }}',
+                'type'        => 'string',
+            ],
+            'status' => [
+                'title'       => 'Status',
+                'description' => 'Status',
+                'default'     => '{{ :status }}',
+                'type'        => 'string',
+            ],
         ];
     }
 
@@ -115,6 +127,10 @@ class Channel extends ComponentBase
 
         if (!$slug = $this->property('slug'))
             return null;
+
+        
+        echo "category: ".$this->property('category').'<br/>';
+        echo "status: ".$this->property('status').'<br/>';
 
         return $this->channel = ChannelModel::whereSlug($slug)->first();
     }

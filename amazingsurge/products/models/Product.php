@@ -1,5 +1,6 @@
 <?php namespace Amazingsurge\Products\Models;
 
+use Auth;
 use Model;
 
 /**
@@ -46,4 +47,26 @@ class Product extends Model
     public $attachOne = [];
     public $attachMany = [];
 
+    /**
+     * 检查用户是否购买了产品
+     * 
+     * @param  string $slug 产品标识
+     * @return bool
+     */
+    public static function hasProduct($slug)
+    {
+        if (!Auth::check()) {
+            return null;
+        }
+
+        // 获取产品与用户关联
+        $user = Auth::getUser();
+        $ret  = self::leftJoin('amazingsurge_products_product_user', 'id', '=', 'product_id', $type = 'inner')
+                    ->where('slug', $slug)
+                    ->where('user_id', $user->id)
+                    ->get()
+                    ->toArray();
+        if(empty($ret)) return false;
+        return true;
+    }
 }

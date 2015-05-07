@@ -80,7 +80,6 @@ class Plugin extends PluginBase
             'functions'   => [
                 'can'     => function($can) { return UserGroup::can($can); },
                 'hasRole' => function($can) { return UserGroup::hasRole($can); },
-                'ahaha' => function() { return UserGroup::ahaha(); }
             ]
         ];
     }

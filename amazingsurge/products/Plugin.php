@@ -2,6 +2,7 @@
 
 use Backend;
 use System\Classes\PluginBase;
+use Amazingsurge\Products\Models\Product;
 
 /**
  * Products Plugin Information File
@@ -60,6 +61,15 @@ class Plugin extends PluginBase
                         'permissions' => ['amazingsurge.products.products']
                     ],
                 ]
+            ]
+        ];
+    }
+
+    public function registerMarkupTags()
+    {
+        return [
+            'functions'   => [
+                'hasProduct' => function($slug) { return Product::hasProduct($slug); },
             ]
         ];
     }
