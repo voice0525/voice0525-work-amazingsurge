@@ -1,5 +1,6 @@
 <?php namespace Voice\Forum\Models;
 
+use Auth;
 use Model;
 use Carbon\Carbon;
 use Markdown;
@@ -30,7 +31,7 @@ class Post extends Model
     /**
      * @var array The attributes that should be visible in arrays.
      */
-    protected $visible = ['subject', 'content', 'member', 'topic'];
+    // protected $visible = ['subject', 'content', 'member', 'topic'];
 
     /**
      * @var array Validation rules
@@ -48,6 +49,10 @@ class Post extends Model
         'topic' => ['Voice\Forum\Models\Topic'],
         'member' => ['Voice\Forum\Models\Member'],
     ];
+
+    // public $hasMany = [
+    //     'post_like_log' => [''],
+    // ]
 
     /**
      * Creates a postinside a topic
@@ -166,4 +171,45 @@ class Post extends Model
             $this->topic->delete();
     }
 
+    public static function likePost()
+    {
+        $user = Auth::getUser();
+        if(!$user) return false;
+
+        $userId = $user->id;
+        $postId = intval(post('post_id'));
+
+        $model = new Model();
+        $model->setTable('rainlab_forum_posts_like_logs');
+        $model->user_id = $userId;
+        $model->post_id = $postId;
+        $model->save();
+
+        $post = self::where('id', $postId)->get();
+        $post[0]->increment('like');
+
+        return ['action' => 'like', 'id' => $postId];
+    }
+
+    public static function unLikePost()
+    {
+        $user = Auth::getUser();
+        if(!$user) return false;
+
+        $userId = $user->id;
+        $postId = intval(post('post_id'));
+
+        $model = new Model();
+        $model->setTable('rainlab_forum_posts_like_logs');
+        $model->user_id = $userId;
+        $model->post_id = $postId;
+        $obj = $model->get()[0];
+        $obj->setTable('rainlab_forum_posts_like_logs');
+        $obj->delete();
+
+        $post = self::where('id', $postId)->get();
+        $post[0]->decrement('like');
+
+        return ['action' => 'unlike', 'id' => $postId];
+    }
 }

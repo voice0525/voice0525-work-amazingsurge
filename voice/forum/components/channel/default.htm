@@ -1,9 +1,39 @@
 <div class="rainlab-forum">
     {% partial __SELF__ ~ "::title" %}
 
+<!-- 分类筛选 开始 -->
+<br/>
+<b>Category:&nbsp;&nbsp;</b>
+{% if category != 'default' %}
+    <a href="{{ url }}/default/{{ state }}">All</a>
+{% else %}
+    All
+{% endif %}
+&nbsp;&nbsp;&nbsp;&nbsp;
+{% for cate in categories %}
+    {% if cate.slug != category %}
+        <a href="{{ url }}/{{ cate.slug }}/{{ state }}">{{ cate.name }}</a>
+    {% else %}
+        {{ cate.name }}
+    {% endif %}
+    &nbsp;&nbsp;&nbsp;&nbsp;
+{% endfor %}
+<br/>
+<!-- 分类筛选 结束-->
+
+<!-- 状态筛选 开始 -->
+<b>Status:&nbsp;&nbsp;</b>
+<a href="javascript:;" data-request="onGetStatus" data-request-update="'{{ __SELF__ }}::topics': '.forum-table', '{{ __SELF__ }}::pagination': '#pagination'" data-request-data="state: 'Newest', channel:{{ channel.id }}">Newest</a>&nbsp;&nbsp;
+<a href="javascript:;" data-request="onGetStatus" data-request-update="'{{ __SELF__ }}::topics': '.forum-table', '{{ __SELF__ }}::pagination': '#pagination'" data-request-data="state: 'Active', channel:{{ channel.id }}">Active</a>&nbsp;&nbsp;
+<a href="javascript:;" data-request="onGetStatus" data-request-update="'{{ __SELF__ }}::topics': '.forum-table', '{{ __SELF__ }}::pagination': '#pagination'" data-request-data="state: 'Unanswered', channel:{{ channel.id }}">Unanswered</a>&nbsp;&nbsp;
+<a href="javascript:;" data-request="onGetStatus" data-request-update="'{{ __SELF__ }}::topics': '.forum-table', '{{ __SELF__ }}::pagination': '#pagination'" data-request-data="state: 'Resolved', channel:{{ channel.id }}">Resolved</a>
+<!-- 状态筛选 结束 -->
+
     {% partial __SELF__ ~ "::topics" %}
 
     {% if topics %}
+    <div id="pagination">
         {% partial __SELF__ ~ "::pagination" %}
+    </div>
     {% endif %}
 </div>

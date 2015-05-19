@@ -10,6 +10,7 @@ use Voice\Forum\Models\ChannelWatch;
 use Voice\Forum\Models\Topic as TopicModel;
 use Voice\Forum\Models\Channel as ChannelModel;
 use Voice\Forum\Models\Member as MemberModel;
+use Voice\Forum\Models\Category as CategoryModel;
 
 /**
  * Channel component
@@ -88,12 +89,6 @@ class Channel extends ComponentBase
                 'default'     => '{{ :category }}',
                 'type'        => 'string',
             ],
-            'status' => [
-                'title'       => 'Status',
-                'description' => 'Status',
-                'default'     => '{{ :status }}',
-                'type'        => 'string',
-            ],
         ];
     }
 
@@ -107,8 +102,23 @@ class Channel extends ComponentBase
         $this->addCss('assets/css/forum.css');
 
         $this->prepareVars();
+        $this->getParams();
         $this->page['channel'] = $this->getChannel();
         return $this->prepareTopicList();
+    }
+
+    /**
+     * 获取当前的分类和状态
+     */
+    public function getParams()
+    {
+        $uri    = $_SERVER['REQUEST_URI'];
+        $str    = explode($this->property('slug'), $uri);
+        $params = explode('?', $str[1]);
+        $this->page['category'] = trim($params[0], '/');
+        $this->page['url']      = $str[0] . $this->property('slug');
+        $this->page['categories'] = CategoryModel::get()->toArray();
+        $this->page['status']     = ['default', 'readed', 'fallowing', 'unread'];
     }
 
     protected function prepareVars()
@@ -128,10 +138,6 @@ class Channel extends ComponentBase
         if (!$slug = $this->property('slug'))
             return null;
 
-        
-        echo "category: ".$this->property('category').'<br/>';
-        echo "status: ".$this->property('status').'<br/>';
-
         return $this->channel = ChannelModel::whereSlug($slug)->first();
     }
 
@@ -141,15 +147,31 @@ class Channel extends ComponentBase
          * If channel exists, load the topics
          */
         if ($channel = $this->getChannel()) {
+            // 获取分类ID
+            $category = $this->property('category');
+            $category = CategoryModel::where('slug', $category)->first();
+
 
             $currentPage = input('page');
             $searchString = trim(input('search'));
-            $topics = TopicModel::with('last_post_member')->listFrontEnd([
-                'page'     => $currentPage,
-                'sort'     => 'updated_at',
-                'channels' => $channel->id,
-                'search'   => $searchString,
-            ]);
+            if($category)
+            {
+                $category = $category->toArray();
+                $topics = TopicModel::with('last_post_member')->where('category_id', $category['id'])->listFrontEnd([
+                    'page'     => $currentPage,
+                    'sort'     => 'updated_at',
+                    'channels' => $channel->id,
+                    'search'   => $searchString,
+                ]);
+            } else {
+                $topics = TopicModel::with('last_post_member')->listFrontEnd([
+                    'page'     => $currentPage,
+                    'sort'     => 'updated_at',
+                    'channels' => $channel->id,
+                    'search'   => $searchString,
+                ]);
+            }
+
 
             /*
              * Add a "url" helper attribute for linking to each topic
@@ -175,7 +197,7 @@ class Channel extends ComponentBase
             }
 
             $this->page['topics'] = $this->topics = $topics;
-
+            
             /*
              * Pagination
              */
@@ -196,4 +218,8 @@ class Channel extends ComponentBase
         $this->page['isGuest'] = !Auth::check();
     }
 
+    public static function getState()
+    {
+        return TopicModel::getTopicsByState();
+    }
 }

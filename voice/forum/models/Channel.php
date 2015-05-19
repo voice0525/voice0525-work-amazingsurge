@@ -36,7 +36,7 @@ class Channel extends Model
     /**
      * @var array The attributes that should be visible in arrays.
      */
-    protected $visible = ['title', 'description'];
+    // protected $visible = ['title', 'description', 'id', 'name'];
 
     /**
      * @var array Validation rules
@@ -163,4 +163,9 @@ class Channel extends Model
     {
         return $query->where('is_hidden', '<>', true);
     }
-}
+
+    public static function getIdByTitle($channel)
+    {
+        $obj = self::where('slug', $channel)->get()->toArray();
+        return !empty($obj) ? $obj[0]['id'] : false;
+    }}

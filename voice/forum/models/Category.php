@@ -2,6 +2,7 @@
 
 use Model;
 use ApplicationException;
+use VoIce\Forum\Models\Channel;
 
 /**
  * Category Model
@@ -31,7 +32,7 @@ class Category extends Model
     /**
      * @var array The attributes that should be visible in arrays.
      */
-    protected $visible = ['title', 'description'];
+    // protected $visible = ['title', 'description'];
 
     /**
      * @var array Validation rules
@@ -70,4 +71,26 @@ class Category extends Model
         });
     }
 
+    /**
+     * 根据频道获取分类
+     *
+     * @access public
+     * @param  string $channel 频道
+     * @return array
+     */
+    public static function getCategoriesByChannel($channel)
+    {
+        $channelId  = Channel::getIdByTitle($channel);
+        $categories = self::leftJoin('rainlab_forum_channels_categories', 'id', '=', 'category_id', $type = 'inner')
+            ->where('channel_id', $channelId)
+            ->get();
+
+        $options = array(0 => array('id' => 0, 'name' => 'Select Cotegory'));
+        foreach($categories as $v)
+        {
+            $options[] = $v->toArray();
+        }
+
+        return $options;
+    }
 }

@@ -9,7 +9,14 @@
             class="form-control"
             value="{{ post('subject') }}" />
     </div>
-
+    <div class="form-group">
+        <label for="topicSubject" class="control-label">Catogory</label>
+        <select name="category">
+            {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <div class="form-group">
         <label for="topicContent" class="control-label">Content</label>
         <textarea

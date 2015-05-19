@@ -16,6 +16,7 @@ use Voice\Forum\Models\Member as MemberModel;
 use Voice\Forum\Models\Post as PostModel;
 use Voice\Forum\Models\TopicWatch;
 use Voice\Forum\Models\TopicFollow;
+use Voice\Forum\Models\Category;
 use Exception;
 
 class Topic extends ComponentBase
@@ -108,10 +109,12 @@ class Topic extends ComponentBase
         $this->addJs('assets/js/forum.js');
 
         $this->prepareVars();
-        $this->page['channel'] = $this->getChannel();
-        $this->page['topic']   = $topic = $this->getTopic();
-        $this->page['member']  = $member = $this->getMember();
+        $this->page['channel']    = $this->getChannel();
+        $this->page['topic']      = $topic = $this->getTopic();
+        $this->page['member']     = $member = $this->getMember();
+        $this->page['categories'] = Category::getCategoriesByChannel($this->property('slug'));
         $this->handleOptOutLinks();
+
         return $this->preparePostList();
     }
 
@@ -472,5 +475,15 @@ class Topic extends ComponentBase
             if ($isAjax) throw $ex;
             else Flash::error($ex->getMessage());
         }
+    }
+
+    public static function likePost()
+    {
+        
+    }
+
+    public static function unLikePost()
+    {
+        
     }
 }

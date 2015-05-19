@@ -75,4 +75,9 @@ class Channels extends Controller
         // $this->vars['records'] = Channel::make()->getEagerRoot();
         // return ['#reorderRecords' => $this->makePartial('reorder_records')];
     }
+
+    public function ajaxGetTopics()
+    {
+        echo 1111111;
+    }
 }

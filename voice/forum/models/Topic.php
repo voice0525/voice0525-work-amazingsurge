@@ -4,6 +4,7 @@ use App;
 use Model;
 use Db;
 use ApplicationException;
+use Voice\Forum\Models\Post as PostModel;
 
 /**
  * Topic Model
@@ -95,6 +96,7 @@ class Topic extends Model
         $topic->subject = array_get($data, 'subject');
         $topic->channel = $channel;
         $topic->start_member = $member;
+        $topic->category_id  = array_get($data, 'category');
 
         $post = new Post;
         $post->topic = $topic;
@@ -278,5 +280,46 @@ class Topic extends Model
     {
         $this->is_locked = ($this->is_locked == 1 ? 0 : 1);
         $this->save();
+    }
+
+    /**
+     * 根据状态获取主题列表
+     */
+    public static function getTopicsByState()
+    {
+        $statusConf  = ['Newest', 'Active', 'Unanswered', 'Resolved'];
+        $state       = ucfirst(post('state'));
+        $channelId   = intval(post('channel'));
+        if(!in_array($state, $statusConf)) return [];
+
+        switch ($state) {
+            case 'Newest':
+                $topics = self::with('last_post_member')->listFrontEnd([
+                    'page'     => 1,
+                    'sort'     => 'updated_at',
+                    'channels' => $channelId,
+                ]);
+                break;
+            case 'Active':
+                $topics = self::orderBy('active_score', 'desc')->get();
+                break;
+            case 'Unanswered':
+                $topics = self::whereIn('id', PostModel::select('topic_id')->groupBy('topic_id')->havingRaw('count(id) = 1')->get()->toArray())->get();
+                break;
+            case 'Resolved':
+                $topics = self::where('has_best', 1)->orderBy('updated_at', 'desc')->get();
+                break;
+            default:
+                $topics = [];
+                break;
+        }
+
+        if(!empty($topics)) return $topics;
+        return [];
+    }
+
+    public function afterFetch()
+    {
+        
     }
 }

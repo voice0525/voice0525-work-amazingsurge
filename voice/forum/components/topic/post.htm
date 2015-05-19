@@ -79,6 +79,10 @@
             {% endif %}
         </div>
         <div class="actions">
+            <div id="like-post{{ post.id }}">
+                <a href="javascript:;" data-request="onLikePost" data-request-update="'{{ __SELF__ }}::likepost': '#like-post{{ post.id }}'" data-request-data="post_id:{{ post.id }}">Like</a>&nbsp;&nbsp;
+            </div>
+            
             {% if topic.canPost %}
                 <a href="javascript:;"
                     class="quote"

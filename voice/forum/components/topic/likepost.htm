@@ -1,0 +1,5 @@
+{% if result.action == 'like' %}
+	<a href="javascript:;" data-request="onUnLikePost" data-request-update="'{{ __SELF__ }}::likepost': '#like-post{{ result.id }}'" data-request-data="post_id:{{ result.id }}">UnLike</a>&nbsp;&nbsp;
+{% else %}
+	<a href="javascript:;" data-request="onLikePost" data-request-update="'{{ __SELF__ }}::likepost': '#like-post{{ result.id }}'" data-request-data="post_id:{{ result.id }}">Like</a>&nbsp;&nbsp;
+{% endif %}
