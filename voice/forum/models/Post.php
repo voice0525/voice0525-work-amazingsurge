@@ -1,5 +1,6 @@
 <?php namespace Voice\Forum\Models;
 
+use Event;
 use Auth;
 use Model;
 use Carbon\Carbon;
@@ -171,6 +172,9 @@ class Post extends Model
             $this->topic->delete();
     }
 
+    /**
+     * 点赞
+     */
     public static function likePost()
     {
         $user = Auth::getUser();
@@ -187,10 +191,17 @@ class Post extends Model
 
         $post = self::where('id', $postId)->get();
         $post[0]->increment('like');
+        $like = $post[0]->like;
 
-        return ['action' => 'like', 'id' => $postId];
+        // 设置事件
+        Event::fire('voice.forum.topic.active', [$post[0]->topic_id, 'like']);
+
+        return ['action' => 'like', 'id' => $postId, 'like' => $like];
     }
 
+    /**
+     * 取消点赞
+     */
     public static function unLikePost()
     {
         $user = Auth::getUser();
@@ -209,7 +220,54 @@ class Post extends Model
 
         $post = self::where('id', $postId)->get();
         $post[0]->decrement('like');
+        $like = $post[0]->like;
 
-        return ['action' => 'unlike', 'id' => $postId];
+        return ['action' => 'unlike', 'id' => $postId, 'like' => $like];
+    }
+
+    /**
+     * 获取post是否被当前用户点赞的信息
+     */
+    public function afterFetch()
+    {
+        static $user;
+        $this->user_like = 0;
+        if($user == false) {
+            $user = Auth::getUser();
+
+            if(!$user) $user = null;
+        }
+        if(!$user) return;
+
+        $userId = $user->id;
+        $postId = $this->id;
+
+        $model = new Model();
+        $model->setTable('rainlab_forum_posts_like_logs');
+        $obj = $model->where('user_id', $userId)->where('post_id', $postId)->get();
+        if($obj->toArray()) $this->user_like = 1;
+        return;
+    }
+
+    /**
+     * 设置最佳答案
+     */
+    public static function setBest()
+    {
+        $postId = intval(post('post_id'));
+        $model  = self::where('id', $postId);
+        $post   = $model->get()->toArray()[0];
+
+        // 更新post信息
+        $model->update(['is_best' => 1]);
+        $model = self::where('id', $postId);
+        // 更新topic信息
+        $model = new Model();
+        $model->setTable('rainlab_forum_topics');
+        $model->where('id', $post['topic_id'])->update(['has_best' => 1]);
+
+        // 设置事件
+        Event::fire('voice.forum.topic.active', [$post['topic_id'], 'set_best']);
+        return;
     }
 }

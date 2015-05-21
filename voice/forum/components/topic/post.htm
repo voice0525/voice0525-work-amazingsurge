@@ -79,10 +79,23 @@
             {% endif %}
         </div>
         <div class="actions">
-            <div id="like-post{{ post.id }}">
-                <a href="javascript:;" data-request="onLikePost" data-request-update="'{{ __SELF__ }}::likepost': '#like-post{{ post.id }}'" data-request-data="post_id:{{ post.id }}">Like</a>&nbsp;&nbsp;
-            </div>
-            
+            <!-- 点赞按钮 start -->
+                <span id="like-post{{ post.id }}">
+                {% if post.user_like %}
+                    <a href="javascript:;" data-request="onUnLikePost" data-request-update="'{{ __SELF__ }}::likepost': '#like-post{{ post.id }}'" data-request-data="post_id:{{ post.id }}">UnLike {{ post.like }}</a>&nbsp;&nbsp;
+                {% else %}
+                    <a href="javascript:;" data-request="onLikePost" data-request-update="'{{ __SELF__ }}::likepost': '#like-post{{ post.id }}'" data-request-data="post_id:{{ post.id }}">Like {{ post.like }}</a>&nbsp;&nbsp;
+                {% endif %}
+                </span>
+            <!-- 点赞按钮 end -->
+            <!-- 设为最佳 start -->
+                {% if topic.has_best == 0 and topic.is_author and post.member_id != topic.start_member_id %}
+                    <a href="javascript:;" id="best{{ post.id }}"><a href="javascript:;" data-request="onSetBest" data-request-update="'{{ __SELF__ }}::setbest': '#best{{ post.id }}'" data-request-data="post_id:{{ post.id }}">Set Best!</a>&nbsp;&nbsp;</a>
+                {% endif %}
+            <!-- 设为最佳 end -->
+            <!-- 显示最佳 start -->
+                {% if  post.is_best == 1%}Best!!!!{% endif %}
+            <!-- 显示最佳 end -->
             {% if topic.canPost %}
                 <a href="javascript:;"
                     class="quote"

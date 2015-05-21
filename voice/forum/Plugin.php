@@ -6,6 +6,7 @@ use RainLab\User\Models\User;
 use Voice\Forum\Models\Member;
 use System\Classes\PluginBase;
 use RainLab\User\Controllers\Users as UsersController;
+use Voice\Forum\Models\Topic as TopicModel;
 
 /**
  * Forum Plugin Information File
@@ -75,6 +76,16 @@ class Plugin extends PluginBase
                     'searchable' => false
                 ]
             ]);
+        });
+
+        // 回帖的事件声明
+        Event::listen('voice.forum.topic.post', function($obj, $post, $postUrl){
+            // 增加活跃度
+            Event::fire('voice.forum.topic.active', [$post->topic_id, 'post']);
+        });
+        // 声明帖子活跃度相关的事件
+        Event::listen('voice.forum.topic.active', function($topicId, $action){
+            TopicModel::setActiveScore($topicId, $action);
         });
     }
 
@@ -159,6 +170,12 @@ class Plugin extends PluginBase
                         'url'         => Backend::url('voice/forum/categories'),
                         'permissions' => ['voice.forum.categories']
                     ],
+                    'topicactive' => [
+                        'label'       => 'voice.forum::lang.backendmenu.topicactive',
+                        'icon'        => 'icon-cog',
+                        'url'         => Backend::url('voice/forum/topicactive'),
+                        'permissions' => ['voice.forum.topicactive']
+                    ]
                 ]
             ]
         ];

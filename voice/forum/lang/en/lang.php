@@ -124,6 +124,7 @@ return [
     'backendmenu' => [
         'channels' => 'Channels',
         'categories' => 'Categories',
+        'topicactive' => 'Active Score Configuration'
     ],
     'data-categories' => [
         'title' => 'Category',
@@ -162,4 +163,20 @@ return [
         'list_name' => 'Category List',
         'list_desc' => 'Displays a list of all visible Categories.'
     ],
+    'topicactive' => [
+        'manage' => 'Topic Active Config Manage',
+        'name' => 'Topic Active Config',
+        'create' => 'Create',
+        'update' => 'Update',
+        'createnclose' => 'Create and Close',
+        'creating' => 'Creating Config...',
+        'or' => 'or',
+        'cancel' => 'Cancel',
+        'new_config' => 'New Config',
+        'sure' => 'Sure to delete this config?',
+        'delete' => 'Delete',
+        'saving' => 'Saving Config...',
+        'save' => 'Save',
+        'savenclose' => 'Save and Close',
+    ]
 ];

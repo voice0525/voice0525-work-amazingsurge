@@ -1,0 +1,17 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    title:
+        label: Title
+        span: left
+
+    score:
+        label: Score
+        span: right
+
+    description:
+        label: Description
+        type: textarea
+        size: tiny

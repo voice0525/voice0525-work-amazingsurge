@@ -113,6 +113,7 @@ class Topic extends ComponentBase
         $this->page['topic']      = $topic = $this->getTopic();
         $this->page['member']     = $member = $this->getMember();
         $this->page['categories'] = Category::getCategoriesByChannel($this->property('slug'));
+        $this->page['topics']      = $this;
         $this->handleOptOutLinks();
 
         return $this->preparePostList();

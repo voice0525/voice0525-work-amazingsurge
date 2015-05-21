@@ -1,5 +1,7 @@
 <?php namespace Voice\Forum\Models;
 
+use Event;
+use Auth;
 use App;
 use Model;
 use Db;
@@ -41,7 +43,7 @@ class Topic extends Model
     /**
      * @var array The attributes that should be visible in arrays.
      */
-    protected $visible = ['id', 'slug', 'subject', 'channel', 'created_at', 'updated_at'];
+    // protected $visible = ['id', 'slug', 'subject', 'channel', 'created_at', 'updated_at'];
 
     /**
      * @var array Date fields
@@ -318,8 +320,60 @@ class Topic extends Model
         return [];
     }
 
-    public function afterFetch()
+    public function beforeSave()
     {
-        
+        // 兼容调整，避免更新时涉及到is_author字段
+        if(isset($this->is_author)) unset($this->is_author);
+    }
+
+    public function afterSave()
+    {
+        // 设定初始活跃值
+        if($this->created_at == $this->updated_at) {
+            Event::fire('voice.forum.topic.active', [$this->id, 'create_topic']);
+        }
+        // exit;
+    }
+
+    public function afterFetch() 
+    {
+        // 检测当前登录用户是否是楼主
+        static $user;
+        $this->is_author = 0;
+        if($user == false) {
+            $user = Auth::getUser();
+
+            if(!$user) $user = null;
+        }
+        if(!$user) return;
+
+        if($this->start_member_id == $user->id) $this->is_author = 1;
+        return;
+    }
+
+    /**
+     * 设置帖子活跃度
+     *
+     * @param  integer $topicId 主题ID
+     * @param  string  $action  操作名称
+     * @return boolean
+     */
+    public static function setActiveScore($topicId, $action)
+    {
+        $action = trim($action);
+        if(!$action) return false;
+
+        $conf = new Model();
+        $conf->setTable('rainlab_forum_topic_active_score_conf');
+        $ret  = $conf->where('title', $action)->get()->toArray();
+        if(!$ret) return;
+
+        $score = $ret[0]['score'];
+        $topic = new Model();
+        $topic->setTable('rainlab_forum_topics');
+        $data  = $topic->where('id', $topicId)->get()->toArray()[0];
+        $f = fopen('event_score.txt', 'a');
+        fwrite($f, "{$topicId} -> {$action}: {$data['active_score']} + {$score}\r\n");
+        $topic->where('id', $topicId)->update(['active_score' => $data['active_score'] + $score]);
     }
 }

@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: voice.forum::lang.topicactive.name
+
+# Model Form Field configuration
+form: ~/plugins/voice/forum/models/topicactive/fields.yaml
+
+# Model Class name
+modelClass: Voice\Forum\Models\topicactive
+
+# Default redirect location
+defaultRedirect: voice/forum/topicactive
+
+# Create page
+create:
+    title: voice.forum::lang.topicactive.create
+    redirect: voice/forum/topicactive/update/:id
+    redirectClose: voice/forum/topicactive
+
+# Update page
+update:
+    title: voice.forum::lang.topicactive.update
+    redirect: voice/forum/topicactive
+    redirectClose: voice/forum/topicactive
+
+# Preview page
+preview:
+    title: voice.forum::lang.topicactive.preview
